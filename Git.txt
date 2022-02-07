@@ -2,7 +2,9 @@ git init
 git add .
 git commit -m "first commit"
 git branch -M main
-git remote add main https://github.com/SouliyaPPS/grocery-store.git
+git remote add origin https://github.com/SouliyaPPS/grocery-store.git
+git push origin master -f
+
 git push -u origin main
 
   assets:
