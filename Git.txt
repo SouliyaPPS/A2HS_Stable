@@ -1,0 +1,17 @@
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/SouliyaPPS/grocery-store.git
+git push -u origin main
+
+  assets:
+    - assets/logo.png
+    - assets/apple-touch-icon.png
+    - assets/favicon.ico
+    - assets/android-chrome-192x192.png
+    - assets/android-chrome-512x512.png
+    - web/favicon.ico
+    - web/icons/android-chrome-192x192.png
+    - web/icons/android-chrome-512x512.png
+    - web/icons/apple-touch-icon.png
