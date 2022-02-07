@@ -1,6 +1,6 @@
 git init
 git add .
-git commit -m "first commit"
+git commit -m "commit"
 git remote add origin https://github.com/SouliyaPPS/grocery-store.git
 git push origin master -f
 
