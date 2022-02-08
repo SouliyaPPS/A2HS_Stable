@@ -9,20 +9,22 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/logo.png',
-              height: 80,
-              width: 80,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Email',
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Hero(
+                tag: 'logo',
+                child: Image.asset('assets/logo.png'),
               ),
-            ),
-          ],
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

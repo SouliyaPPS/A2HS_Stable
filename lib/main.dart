@@ -1,12 +1,12 @@
 import 'package:flutter_web_a2hs/screens/register_screen.dart';
+import 'package:flutter_web_a2hs/screens/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import "package:universal_html/js.dart" as js;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'screens/onboard_screen.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -63,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: new Text(widget.title, textAlign: TextAlign.center),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
@@ -73,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 js.context.callMethod("presentAddToHome");
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const RegisterScreen(),
+                    builder: (BuildContext context) => WelcomeScreen(),
                   ),
                 );
               }, // Handle your callback.
@@ -89,22 +90,68 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: 10.0),
             ElevatedButton.icon(
               icon: Icon(
-                Icons.shopping_cart,
+                Icons.add_to_home_screen,
                 color: Colors.white,
-                size: 34.0,
+                size: 30.0,
               ),
               label: Text('Add to Home Screen'),
               style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 30),
+                textStyle: const TextStyle(fontSize: 28),
                 shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(20.0),
                 ),
               ),
               onPressed: () {
                 js.context.callMethod("presentAddToHome");
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => WelcomeScreen(),
+                  ),
+                );
+              },
+            ),
+            SizedBox(height: 25.0),
+            ElevatedButton.icon(
+              icon: Icon(
+                Icons.menu_open,
+                color: Colors.white,
+                size: 32,
+              ),
+              label: Text('OnBoard App'),
+              style: ElevatedButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 25),
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(20.0),
+                ),
+              ),
+              onPressed: () {
+                // js.context.callMethod("presentAddToHome");
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => OnBoardScreen(),
+                  ),
+                );
+              },
+            ),
+            SizedBox(height: 27.0),
+            ElevatedButton.icon(
+              icon: Icon(
+                Icons.app_registration,
+                color: Colors.white,
+                size: 32,
+              ),
+              label: Text('Register App'),
+              style: ElevatedButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 25),
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(20.0),
+                ),
+              ),
+              onPressed: () {
+                // js.context.callMethod("presentAddToHome");
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) => const RegisterScreen(),
