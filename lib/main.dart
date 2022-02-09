@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Timer(
       Duration(seconds: 8),
       () {
-        FirebaseAuth.instance.authStateChanges().listen((user) async {
+        FirebaseAuth.instance.authStateChanges().listen((User? user) async {
           if (user == null) {
             Navigator.pushReplacement(
                 context,

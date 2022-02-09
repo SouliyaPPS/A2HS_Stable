@@ -22,11 +22,11 @@ class AuthProvider with ChangeNotifier {
       print(e.code);
     };
 
-    final PhoneCodeSent smsOtpSend = (String verId, int resentToken) async {
+    final PhoneCodeSent smsOtpSend = (String verId, int? resentToken) async {
       this.verificationId = verId;
       //open dialog to enter received otp sms
       smsOtpDialog(context, number);
-    } as PhoneCodeSent;
+    };
 
     try {
       _auth.verifyPhoneNumber(
@@ -106,7 +106,10 @@ class AuthProvider with ChangeNotifier {
                   Navigator.of(context).pop();
                 }
               },
-              child: Text('DONE'),
+              child: Text(
+                'DONE',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
             ),
           ],
         );

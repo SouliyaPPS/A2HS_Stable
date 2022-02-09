@@ -24,6 +24,20 @@ class WelcomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Visibility(
+                      visible: auth.error == 'Invalid OTP' ? true : false,
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              auth.error,
+                              style: TextStyle(color: Colors.red, fontSize: 12),
+                            ),
+                            SizedBox(height: 5),
+                          ],
+                        ),
+                      ),
+                    ),
                     Text(
                       'Login',
                       style:
@@ -62,7 +76,7 @@ class WelcomeScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: AbsorbPointer(
-                            absorbing: !_validPhoneNumber ? false : true,
+                            absorbing: _validPhoneNumber ? false : true,
                             child: FlatButton(
                               color: _validPhoneNumber
                                   ? Theme.of(context).primaryColor
@@ -75,7 +89,9 @@ class WelcomeScreen extends StatelessWidget {
                               onPressed: () {
                                 String number =
                                     '+85620${_phoneNumberController.text}';
-                                auth.verifyPhone(context, number);
+                                auth.verifyPhone(context, number).then((value) {
+                                  _phoneNumberController.clear();
+                                });
                               },
                             ),
                           ),
