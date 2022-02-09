@@ -1,24 +1,79 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_web_a2hs/providers/auth_provider.dart';
+import 'package:flutter_web_a2hs/screens/home_screen.dart';
 import 'package:flutter_web_a2hs/screens/register_screen.dart';
 import 'package:flutter_web_a2hs/screens/welcome_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import "package:universal_html/js.dart" as js;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'screens/onboard_screen.dart';
+import 'package:flutter/widgets.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
+  // await Firebase.initializeApp(
+  //   options: FirebaseOptions(
+  //     apiKey: "AIzaSyAxGc789lnPyPn4K9Z76VS768s6DbueaEY",
+  //     authDomain: "grocery-store-5d527.firebaseapp.com",
+  //     projectId: "grocery-store-5d527",
+  //     storageBucket: "grocery-store-5d527.appspot.com",
+  //     messagingSenderId: "113866553527",
+  //     appId: "1:113866553527:web:e0e9477256950f58bd3532",
+  //     measurementId: "G-LYW13M3SKE",
+  //   ),
+  // );
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Grocery Store',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Grocery Store'),
+      // home: FutureBuilder(
+      //   future: _checkFirstSeen(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.hasData) {
+      //       return snapshot.data != null ? WelcomeScreen() : RegisterScreen();
+      //     }
+      //     return Container();
+      //   },
+      // ),
     );
   }
+
+  // Future<bool> _checkFirstSeen() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   bool _seen = (prefs.getBool('seen') ?? false);
+
+  //   if (_seen) {
+  //     return false;
+  //   } else {
+  //     await prefs.setBool('seen', true);
+  //     return true;
+  //   }
+  // }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -53,6 +108,21 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       });
     }
+
+    Timer(
+      Duration(seconds: 8),
+      () {
+        FirebaseAuth.instance.authStateChanges().listen((user) async {
+          if (user == null) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(),
+                ));
+          }
+        });
+      },
+    );
   }
 
   @override
@@ -120,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.white,
                 size: 32,
               ),
-              label: Text('OnBoard App'),
+              label: Text('Go to App'),
               style: ElevatedButton.styleFrom(
                 textStyle: const TextStyle(fontSize: 25),
                 shape: new RoundedRectangleBorder(
@@ -131,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // js.context.callMethod("presentAddToHome");
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => OnBoardScreen(),
+                    builder: (BuildContext context) => WelcomeScreen(),
                   ),
                 );
               },

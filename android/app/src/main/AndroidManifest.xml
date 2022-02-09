@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_web_a2hs">
    <application
-        android:label="flutter_web_a2hs"
+        android:label="Grocery Store"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
