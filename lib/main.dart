@@ -1,9 +1,8 @@
 import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_web_a2hs/providers/auth_provider.dart';
-import 'package:flutter_web_a2hs/screens/home_screen.dart';
+// import 'package:flutter_web_a2hs/screens/home_screen.dart';
 import 'package:flutter_web_a2hs/screens/register_screen.dart';
 import 'package:flutter_web_a2hs/screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +28,9 @@ Future<void> main() async {
   //     measurementId: "G-LYW13M3SKE",
   //   ),
   // );
+
+  runApp(MyApp());
+
   runApp(
     MultiProvider(
       providers: [
@@ -109,20 +111,20 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
-    Timer(
-      Duration(seconds: 8),
-      () {
-        FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-          if (user == null) {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
-                ));
-          }
-        });
-      },
-    );
+    // Timer(
+    //   Duration(seconds: 8),
+    //   () {
+    //     FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+    //       if (user == null) {
+    //         Navigator.pushReplacement(
+    //             context,
+    //             MaterialPageRoute(
+    //               builder: (context) => HomeScreen(),
+    //             ));
+    //       }
+    //     });
+    //   },
+    // );
   }
 
   @override
