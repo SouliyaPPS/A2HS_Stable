@@ -1,12 +1,15 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_web_a2hs/providers/auth_provider.dart';
+import 'package:flutter_web_a2hs/providers/location_provider.dart';
+import 'package:flutter_web_a2hs/screens/map_screen.dart';
 import 'package:provider/provider.dart';
 import 'onboard_screen.dart';
 
 // ignore: must_be_immutable
 class WelcomeScreen extends StatelessWidget {
   // const WelcomeScreen({Key? key}) : super(key: key);
+  static const String id = 'welcome-screen';
 
   @override
   Widget build(BuildContext context) {
@@ -82,16 +85,22 @@ class WelcomeScreen extends StatelessWidget {
                                   ? Theme.of(context).primaryColor
                                   : Colors.grey,
                               child: Text(
-                                  _validPhoneNumber
-                                      ? 'CONTINUE'
-                                      : 'ENTER PHONE NUMBER',
-                                  style: TextStyle(color: Colors.white)),
+                                _validPhoneNumber
+                                    ? 'CONTINUE'
+                                    : 'ENTER PHONE NUMBER',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               onPressed: () {
                                 String number =
                                     '+85620${_phoneNumberController.text}';
-                                auth.verifyPhone(context, number).then((value) {
-                                  _phoneNumberController.clear();
-                                });
+                                auth.verifyPhone(context, number).then(
+                                  (value) {
+                                    _phoneNumberController.clear();
+                                  },
+                                );
                               },
                             ),
                           ),
@@ -107,6 +116,8 @@ class WelcomeScreen extends StatelessWidget {
       );
     }
 
+    final locationData = Provider.of<LocationProvider>(context, listen: false);
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -116,9 +127,14 @@ class WelcomeScreen extends StatelessWidget {
               right: 0.0,
               top: 10.0,
               child: FlatButton(
+                child: Text(
+                  'SKIP',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.deepOrangeAccent,
+                  ),
+                ),
                 onPressed: () {},
-                child: Text('Skip',
-                    style: TextStyle(color: Colors.deepOrangeAccent)),
               ),
             ),
             Column(
@@ -137,7 +153,14 @@ class WelcomeScreen extends StatelessWidget {
                     'SET DELIVERY LOCATION',
                     style: TextStyle(color: Colors.white),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await locationData.getCurrentPosition();
+                    if (locationData.permissionAllowed == true) {
+                      Navigator.pushReplacementNamed(context, MapScreen.id);
+                    } else {
+                      print("Permission not allowed");
+                    }
+                  },
                 ),
                 SizedBox(
                   height: 10,
@@ -161,6 +184,20 @@ class WelcomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                FlatButton(
+                  // color: Colors.deepOrangeAccent,
+                  child: Text(
+                    'SKIP',
+                    style: TextStyle(
+                      color: Colors.deepOrangeAccent,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () {},
                 ),
                 SizedBox(
                   height: 20,

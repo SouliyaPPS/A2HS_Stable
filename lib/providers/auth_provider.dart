@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+// ignore: unnecessary_import
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_a2hs/screens/home_screen.dart';
@@ -92,11 +93,7 @@ class AuthProvider with ChangeNotifier {
                   if (user != null) {
                     Navigator.of(context).pop();
                     // don't want come back to welcome screen after loged in
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
-                      ),
-                    );
+                    Navigator.pushReplacementNamed(context, HomeScreen.id);
                   } else {
                     print("Login Failed");
                   }

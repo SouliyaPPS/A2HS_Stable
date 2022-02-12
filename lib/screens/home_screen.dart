@@ -5,7 +5,8 @@ import 'package:flutter_web_a2hs/screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({ Key? key }) : super(key: key);
+  // const HomeScreen({ Key? key }) : super(key: key);
+  static const String id = 'home-screen';
 
   @override
   Widget build(BuildContext context) {
