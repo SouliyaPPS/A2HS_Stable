@@ -11,16 +11,31 @@ class AuthProvider with ChangeNotifier {
   late String verificationId;
   String error = '';
   UserServices _userServices = UserServices();
+  bool loading = false;
+
+  // set loading(bool loading) {
+  //   isLoading = loading;
+  //   notifyListeners();
+  // }
 
   Future<void> verifyPhone(BuildContext context, String number) async {
+    this.loading = true;
+    notifyListeners();
+
     final PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential credential) async {
+      this.loading = false;
+      notifyListeners();
+
       await _auth.signInWithCredential(credential);
     };
 
     final PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException e) async {
+      this.loading = false;
       print(e.code);
+      this.error = e.toString();
+      notifyListeners();
     };
 
     final PhoneCodeSent smsOtpSend = (String verId, int? resentToken) async {
@@ -40,7 +55,8 @@ class AuthProvider with ChangeNotifier {
         },
       );
     } catch (e) {
-      print(e);
+      this.error = e.toString();
+      notifyListeners();
     }
   }
 
@@ -92,6 +108,7 @@ class AuthProvider with ChangeNotifier {
                   // ignore: unnecessary_null_comparison
                   if (user != null) {
                     Navigator.of(context).pop();
+
                     // don't want come back to welcome screen after loged in
                     Navigator.pushReplacementNamed(context, HomeScreen.id);
                   } else {

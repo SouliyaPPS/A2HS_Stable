@@ -81,19 +81,10 @@ class WelcomeScreen extends StatelessWidget {
                           child: AbsorbPointer(
                             absorbing: _validPhoneNumber ? false : true,
                             child: FlatButton(
-                              color: _validPhoneNumber
-                                  ? Theme.of(context).primaryColor
-                                  : Colors.grey,
-                              child: Text(
-                                _validPhoneNumber
-                                    ? 'CONTINUE'
-                                    : 'ENTER PHONE NUMBER',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
                               onPressed: () {
+                                myState(() {
+                                  auth.loading = true;
+                                });
                                 String number =
                                     '+85620${_phoneNumberController.text}';
                                 auth.verifyPhone(context, number).then(
@@ -102,6 +93,23 @@ class WelcomeScreen extends StatelessWidget {
                                   },
                                 );
                               },
+                              color: _validPhoneNumber
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey,
+                              child: auth.loading
+                                  ? CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    )
+                                  : Text(
+                                      _validPhoneNumber
+                                          ? 'CONTINUE'
+                                          : 'ENTER PHONE NUMBER',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                             ),
                           ),
                         ),
