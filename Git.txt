@@ -1,7 +1,7 @@
 git init
 git add .
-git commit -m "new"
-git remote add origin https://github.com/SouliyaPPS/grocery-store.git
+git commit -m "A2HS_Stable"
+git remote add origin https://github.com/SouliyaPPS/A2HS_Stable.git
 git push origin main -f
 
  
